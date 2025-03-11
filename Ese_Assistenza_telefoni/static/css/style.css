@@ -1,0 +1,12 @@
+#ricevuta{
+    display: none;
+}
+
+.logo{
+    width: 8rem;
+    height: auto;
+}
+
+.border{
+    border: 2px solid white;
+}

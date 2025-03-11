@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catalogo Fotografia</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="carosello" class="catalogo">
+
+        <select id="select-immagini">
+            <option value="" hidden>Seleziona immagine</option>
+            <script>
+
+                // Definizione dell'array di immagini con id, nome e percorso dell'immagine
+                const Immagini = [
+                    {id: 1, nome: 'Sora', src: 'media/Sora.png'},
+                    {id: 2, nome: 'Riku', src: 'media/Riku.png'},
+                    {id: 3, nome: 'Kairi', src: 'media/Kairi.png'},
+                    {id: 4, nome: 'Axel', src: 'media/Axel.png'},
+                    {id: 5, nome: 'Pippo', src: 'media/Pippo.png'},
+                    {id: 6, nome: 'Paperino', src: 'media/Paperino.png'},
+                    {id: 7, nome: 'Xehanort', src: 'media/Xehanort.png'},
+                    {id: 8, nome: 'Sephiroth', src: 'media/Sephiroth.png'},
+                    {id: 9, nome: 'Maleficent', src: 'media/Maleficent.png'},
+                    {id: 10, nome: 'Ade', src: 'media/Ade.png'}
+                ];
+
+
+                // Creazione degli elementi <option> per ogni immagine nell'array
+                Immagini.forEach(immagine => {
+                    document.write(`<option value="${immagine.src}">${immagine.nome}</option>`);
+                });
+            </script>
+        </select>
+    </div>
+
+    <script>
+
+
+        // Selezione degli elementi <select> e <img> dal DOM
+        const selectElement = document.getElementById('select-immagini');
+        const immagineElement = document.createElement('img');
+        immagineElement.id = 'immagine';
+
+
+
+
+        // Creazione del div immagine-selezionata e impostazione di display: none
+        const newDiv = document.createElement('div');
+        newDiv.className = 'immagine-selezionata';
+        newDiv.style.display = 'none';
+        newDiv.appendChild(immagineElement);
+
+
+
+        // Creazione dei bottoni e aggiunta al div immagine-selezionata
+        const precedenteButton = document.createElement('button');
+        precedenteButton.className = 'precedente';
+        precedenteButton.type = 'button';
+        precedenteButton.innerHTML = '<span class="icona-precedente" aria-hidden="true"></span>';
+        newDiv.appendChild(precedenteButton);
+
+
+
+        const successivoButton = document.createElement('button');
+        successivoButton.className = 'successivo';
+        successivoButton.type = 'button';
+        successivoButton.innerHTML = '<span class="icona-successiva" aria-hidden="true"></span>';
+        newDiv.appendChild(successivoButton);
+
+        document.querySelector('.catalogo').appendChild(newDiv);
+
+
+
+        // Aggiunta di un listener per l'evento 'change' sul <select>
+        selectElement.addEventListener('change', function() {
+            const selectedSrc = this.value;
+            immagineElement.src = selectedSrc;
+            newDiv.style.display = 'flex'; 
+        });
+
+
+
+        // Funzione per aggiornare l'immagine selezionata
+        function aggiornaImmagine(index) {
+            selectElement.selectedIndex = index;
+            const selectedSrc = selectElement.options[index].value;
+            immagineElement.src = selectedSrc;
+            newDiv.style.display = 'flex'; 
+        }
+
+
+
+        // Aggiunta di un listener per l'evento 'click' sul bottone "precedente"
+        precedenteButton.addEventListener('click', function() {
+    let currentIndex = selectElement.selectedIndex;
+    if (currentIndex > 1) {
+        aggiornaImmagine(currentIndex - 1);
+    } else {
+        aggiornaImmagine(selectElement.options.length - 1);
+    }
+});
+
+// Aggiunta di un listener per l'evento 'click' sul bottone "successivo"
+        successivoButton.addEventListener('click', function() {
+    let currentIndex = selectElement.selectedIndex;
+    if (currentIndex < selectElement.options.length - 1) {
+        aggiornaImmagine(currentIndex + 1);
+    } else {
+        aggiornaImmagine(1);
+    }
+});
+    </script>
+</body>
+</html>

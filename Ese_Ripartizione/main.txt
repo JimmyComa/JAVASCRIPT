@@ -1,0 +1,59 @@
+let amici = [];
+
+amici.push("Luca", "Marco", "Giulia", "Francesca", "Alessandro", "Martina", 
+    "Davide", "Sara", "Matteo", "Elena", "Simone", "Chiara", 
+    "Federico", "Valentina", "Andrea", "Laura", "Giorgio", "Silvia");
+
+function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const x = Math.floor(Math.random() * (i + 1));
+        [array[i], array[x]] = [array[x], array[i]];
+    }
+}
+
+shuffle(amici);
+
+// let squadra1 = [];
+// let squadra2 = [];
+// let squadra3 = [];
+
+// for (let i = 0; i < 6; i++) {
+//         squadra1.push(amici[i]);
+//         squadra2.push(amici[i + 6]);
+//         squadra3.push(amici[i + 12]);
+// }
+
+
+let squadra1 = amici.slice(0, 6);       // Ho cercato online ed ho trovato la funzione slice() che
+let squadra2 = amici.slice(6, 12);      // mi crea una copia superficiale
+let squadra3 = amici.slice(12, 18);
+
+function stampaAmici(amici) {
+    document.write("<div class='amici'><h3>Amici</h3>");
+    document.write("<table><tr><th>Nome</th></tr>");
+    amici.forEach(function(nome) {
+        document.write("<tr><td>" + nome + "</td></tr>");
+    });
+    document.write("</table></div>");
+}
+
+function stampaSquadra(squadra, numero) {
+    document.write("<div class='squadra'><h3>Squadra " + numero + "</h3>");
+    document.write("<table><tr><th>Nome</th></tr>");
+    squadra.forEach(function(nome, i) {
+        if (i === 0) {
+            document.write("<tr><td>" + nome + " (Capitano)</td></tr>");
+        } else {
+            document.write("<tr><td>" + nome + "</td></tr>");
+        }
+    });
+    document.write("</table></div>");
+}
+
+document.write("<div class='container'>");
+stampaAmici(amici);
+document.write("<div class='squadre'>");
+stampaSquadra(squadra1, 1);
+stampaSquadra(squadra2, 2);
+stampaSquadra(squadra3, 3);
+document.write("</div></div>");

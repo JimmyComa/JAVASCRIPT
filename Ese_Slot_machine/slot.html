@@ -1,0 +1,160 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>SLOT MACHINE</title>
+		<style>
+			body {
+				background-color: #11aaff;
+			}
+			
+			#border {
+				width: 500px;
+				padding: 10px;
+				margin: 50px auto;
+				text-align: center;
+			}
+
+			.contenitore {
+				margin: 0 auto;
+				width: 198px;
+			}
+
+			.slotmachine {
+				width: 64px;
+				height: 64px;
+				float: left;
+				border: 1px dashed black;
+			}
+			
+			.pulsantiera {
+				width: 50%;
+				float: left;
+			}
+			
+			.pulsante {
+				display: inline-block;
+				text-align: center;
+				font-family: sans-serif;
+				color: black;
+				font-size: 12px;
+				background-color: #693F73;
+				border-radius: 24px;
+			}
+			
+			button {
+				display: block;
+				width: 138px;
+				height: 33px;
+				margin: 20px;
+			}
+			
+			#esito {
+				width: 100%;
+				height: 33px;
+				font-family: Arial;
+				font-size: 24px;
+			}
+
+			#vinto{
+				font-size: 35px;
+				color: green;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="border">
+			<div class="contenitore">
+				<div class="slotmachine"><img id="uno" src=""></div>
+				<div class="slotmachine"><img id="due" src=""></div>
+				<div class="slotmachine"><img id="tre" src=""></div>
+			</div>
+			<div class="pulsantiera">
+				<button id="start" class="pulsante">GIOCA</button>
+			</div>
+			<div class="pulsantiera">
+				<button id="stop" class="pulsante">STOP</button>
+			</div>
+			<div style="clear:both;" id="vinto"></div>
+			<div id="esito"><!-- Visualizzare qui l'esito della partita --></div>
+		</div>
+			<script>
+
+
+
+    // Seleziona gli elementi immagine della slot machine
+    const Uno = document.getElementById("uno");
+    const Due = document.getElementById("due");
+    const Tre = document.getElementById("tre");
+
+    // Array delle immagini disponibili per la slot machine
+    const Immagini = [
+        {id: 1, nome: 'mela', src: 'media/1.png'},
+        {id: 2, nome: 'ananas', src: 'media/2.png'},
+        {id: 3, nome: 'banana', src: 'media/3.png'},
+        {id: 4, nome: 'fragola', src: 'media/4.png'},
+        {id: 5, nome: 'ciliegia', src: 'media/5.png'}
+    ];
+
+	// Variabili per tenere traccia delle partite e delle vittorie
+	let partiteGiocate = 0;
+	let vittorie = 0;
+
+    // Funzione per ottenere un'immagine casuale dall'array
+    function getImgRandom() {
+        const i = Math.floor(Math.random() * Immagini.length);
+        return Immagini[i];
+    }
+
+    // Funzione per impostare immagini casuali nei tre elementi della slot machine
+    function setImgRandom() {
+        Uno.src = getImgRandom().src;
+        Due.src = getImgRandom().src;
+        Tre.src = getImgRandom().src;
+    }
+
+    let interval; // Variabile per memorizzare l'intervallo
+
+    // Funzione per avviare la slot machine
+    function start() {
+		document.getElementById("start").disabled = true; 
+        document.getElementById("stop").disabled = false; 
+        interval = setInterval(setImgRandom, 100); 
+    }
+
+    // Funzione per fermare la slot machine
+    function stop() {
+		document.getElementById("stop").disabled = true; 
+        document.getElementById("start").disabled = false; 
+        clearInterval(interval);
+		partiteGiocate++;
+		verificaVittoria();
+		aggiornaEsito();
+    }
+
+	// Verifica della vittoria
+	function verificaVittoria() {
+        if (Uno.src === Due.src && Due.src === Tre.src) {
+            vittorie++;
+			document.getElementById("vinto").innerText = "Hai vinto";
+    } else {
+        document.getElementById("vinto").innerText = "";
+    }
+    }
+
+	// funzione per aggiornare il messaggio di esito
+	function aggiornaEsito(){
+		const percentualeVittorie = (vittorie / partiteGiocate)*100;
+		document.getElementById("esito").innerText = `Partite giocate: ${partiteGiocate}, Vittorie: ${vittorie}, Percentuale di vittorie: ${percentualeVittorie.toFixed(2)}%`;
+	}
+
+    // Aggiunge gli event listener ai pulsanti di start e stop
+    document.querySelector("#start").addEventListener("click", start);
+    document.querySelector("#stop").addEventListener("click", stop);
+
+    // Imposta immagini casuali iniziali
+    setImgRandom();
+
+</script>
+	</body>
+</html>
